@@ -10,6 +10,8 @@ namespace Com.MrIT.Services
     {
         VmGenericServiceResult CreateStaff(VmStaff staff);
 
+        VmGenericServiceResult UpdateStaff(VmStaff staff);
+
         List<VmStaff> GetAllStaff();
 
         VmStaff GetStaff(int id);

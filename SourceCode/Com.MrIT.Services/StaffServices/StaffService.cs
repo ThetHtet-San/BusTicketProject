@@ -23,10 +23,11 @@ namespace Com.MrIT.Services
 
         public VmGenericServiceResult CreateStaff(VmStaff staff)
         {
+            //return format
             var result = new VmGenericServiceResult();
-            var dbStaff = new Staff();
             try
             {
+                var dbStaff = new Staff();
                 Copy<VmStaff, Staff>(staff, dbStaff);
                 var dbResult = _repoStaff.Add(dbStaff);
 
@@ -37,7 +38,30 @@ namespace Com.MrIT.Services
             catch (Exception ex)
             {
                 result.IsSuccess = false;
-                result.MessageToUser = ex.Message;
+                result.MessageToUser = "Error while creating data. Please log a ticket at Web helpdesk."; //ex.Message;
+            }
+
+            return result;
+        }
+
+        public VmGenericServiceResult UpdateStaff(VmStaff staff)
+        {
+            //return format
+            var result = new VmGenericServiceResult();
+            try
+            {
+                var dbStaff = new Staff();
+                Copy<VmStaff, Staff>(staff, dbStaff);
+                var dbResult = _repoStaff.Update(dbStaff);
+
+                result.IsSuccess = true;
+                result.MessageToUser = "Success";
+                result.RequestId = dbResult.ID.ToString();
+            }
+            catch (Exception ex)
+            {
+                result.IsSuccess = false;
+                result.MessageToUser = "Error while updating data. Please log a ticket at Web helpdesk."; //ex.Message;
             }
 
             return result;
@@ -63,6 +87,10 @@ namespace Com.MrIT.Services
         public VmStaff GetStaff(int id)
         {
             var dbStaff = _repoStaff.GetWithoutAsync(id);
+            if (dbStaff == null)
+            {
+                return null;
+            }
             var result = new VmStaff();
             Copy<Staff, VmStaff>(dbStaff, result);
             result.EncryptId = Md5.Encrypt(result.ID.ToString());
