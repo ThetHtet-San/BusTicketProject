@@ -89,43 +89,7 @@ namespace Com.MrIT.DataRepository
             this.Commit();
             //RecordChangeLog(entity, "Create");
 
-            string tableID = entity.ID.ToString();
-            try
-            {
-                var sourceProperties = entity.GetType().GetProperties();
-                foreach (var sourceProperty in sourceProperties)
-                {
-                    var dbChangeLog = new ChangeLog();
-                    dbChangeLog.TableName = typeof(T).FullName;
-                    dbChangeLog.FieldName = sourceProperty.Name;
-                    dbChangeLog.Action = "Create";
-                    dbChangeLog.TableID = tableID;
-                    if (sourceProperty.GetValue(entity) != null)
-                    {
-                        if (sourceProperty.PropertyType.FullName == "System.Byte[]")
-                        {
-                            dbChangeLog.FieldValue = Convert.ToBase64String((byte[])sourceProperty.GetValue(entity));
-                        }
-                        else
-                        {
-                            dbChangeLog.FieldValue = sourceProperty.GetValue(entity).ToString();
-                        }
-
-                    }
-                    dbChangeLog.CreatedBy = dbChangeLog.ModifiedBy = entity.ModifiedBy;
-                    dbChangeLog.CreatedOn = dbChangeLog.ModifiedOn = DateTime.Now;
-                    dbChangeLog.SystemActive = true;
-                    dbChangeLog.Active = true;
-
-                    this.DbContext.ChangeLogs.Add(dbChangeLog);
-                    this.Commit();
-                }
-
-            }
-            catch (Exception ex)
-            {
-                string err = ex.Message;
-            }
+            
 
             return result;
         }
@@ -147,73 +111,7 @@ namespace Com.MrIT.DataRepository
             this.Commit();
             //RecordChangeLog(entity, "Update");
 
-            string tableID = entity.ID.ToString();
-            try
-            {
-                var sourceProperties = entity.GetType().GetProperties();
-                var oldSourceProperties = oldEntity.GetType().GetProperties();
-                foreach (var sourceProperty in sourceProperties)
-                {
-                    foreach (var oldSourceProperty in oldSourceProperties)
-                    {
-                        if (sourceProperty.Name == oldSourceProperty.Name)
-                        {
-                            var newValue = "";
-                            if (sourceProperty.GetValue(entity) != null)
-                            {
-                                if (sourceProperty.PropertyType.FullName == "System.Byte[]")
-                                {
-                                    newValue = Convert.ToBase64String((byte[])sourceProperty.GetValue(entity));
-                                }
-                                else
-                                {
-                                    newValue = sourceProperty.GetValue(entity).ToString();
-                                }
-
-                            }
-
-                            var oldValue = "";
-                            if (oldSourceProperty.GetValue(oldEntity) != null)
-                            {
-                                oldValue = oldSourceProperty.GetValue(oldEntity).ToString();
-                            }
-                            if (oldSourceProperty.GetValue(oldEntity) != null)
-                            {
-                                if (oldSourceProperty.PropertyType.FullName == "System.Byte[]")
-                                {
-                                    oldValue = Convert.ToBase64String((byte[])oldSourceProperty.GetValue(oldEntity));
-                                }
-                                else
-                                {
-                                    oldValue = oldSourceProperty.GetValue(oldEntity).ToString();
-                                }
-
-                            }
-
-                            if (newValue != oldValue)
-                            {
-                                var dbChangeLog = new ChangeLog();
-                                dbChangeLog.TableName = typeof(T).FullName;
-                                dbChangeLog.TableID = tableID;
-                                dbChangeLog.FieldName = sourceProperty.Name;
-                                dbChangeLog.Action = "Update";
-                                dbChangeLog.FieldValue = newValue;
-                                dbChangeLog.CreatedBy = dbChangeLog.ModifiedBy = entity.ModifiedBy;
-                                dbChangeLog.CreatedOn = dbChangeLog.ModifiedOn = DateTime.Now;
-                                dbChangeLog.Active = true;
-                                dbChangeLog.SystemActive = true;
-
-                                this.DbContext.ChangeLogs.Add(dbChangeLog);
-                                this.Commit();
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                string err = ex.Message;
-            }
+           
 
             return result;
         }

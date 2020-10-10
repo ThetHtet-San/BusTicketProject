@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Com.MrIT.DBEntities
 {
-    [Table("log_change")]
-    public class ChangeLog : GenericEntity
+    [Table("tablename")]
+    public class Sample : GenericEntity
     {
         public string TableID { get; set; }
         public string Action { get; set; }

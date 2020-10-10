@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Com.MrIT.DataRepository
 {
-    public interface ILoginLogRepository : IGenericRepository<LoginLog>
+    public interface ISampleRepository : IGenericRepository<Sample>
     {
 
     }

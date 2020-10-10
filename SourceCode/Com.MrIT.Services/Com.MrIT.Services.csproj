@@ -11,8 +11,4 @@
     <ProjectReference Include="..\Com.MrIT.ViewModels\Com.MrIT.ViewModels.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="MrUserServices\" />
-  </ItemGroup>
-
 </Project>

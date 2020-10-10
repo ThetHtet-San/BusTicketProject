@@ -1,0 +1,12 @@
+﻿CREATE TABLE `ojt_teammu`.`staff` (
+  `ID` INT(11) NOT NULL AUTO_INCREMENT,
+  `Active` BIT NULL,
+  `SystemActive` BIT NULL,
+  `CreatedBy` VARCHAR(45) NULL,
+  `CreatedOn` DATETIME NULL,
+  `ModifiedBy` VARCHAR(45) NULL,
+  `ModifiedOn` DATETIME NULL,
+  `Code` VARCHAR(45) NULL,
+  `Name` VARCHAR(45) NULL,
+  `Address` VARCHAR(500) NULL,
+  PRIMARY KEY (`ID`));

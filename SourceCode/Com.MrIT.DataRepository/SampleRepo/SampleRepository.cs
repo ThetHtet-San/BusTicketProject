@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 namespace Com.MrIT.DataRepository
 {
 
-    public class EmailLogRepository : GenericRepository<EmailLog>, IEmailLogRepository
+    public class SampleRepository : GenericRepository<Sample>, ISampleRepository
     {
-        public EmailLogRepository(DataContext context, ILoggerFactory loggerFactory) :
-       base(context, loggerFactory, "EmailLogRepository")
+        public SampleRepository(DataContext context, ILoggerFactory loggerFactory) :
+       base(context, loggerFactory, "SampleRepository")
         {
 
         }

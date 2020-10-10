@@ -1,0 +1,44 @@
+﻿@model Com.MrIT.ViewModels.VmStaff
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <form asp-action="Create" method="post">
+            <div class="row">
+                <div class="col-sm-4">
+                    <label asp-for="Code"></label>
+                </div>
+                <div class="col-sm-4">
+                    <input type="text" asp-for="Code" class="form-control" />
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-sm-4">
+                    <label asp-for="Name"></label>
+                </div>
+                <div class="col-sm-4">
+                    <input type="text" asp-for="Name" class="form-control" />
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-sm-4">
+                    <label asp-for="Address"></label>
+                </div>
+                <div class="col-sm-4">
+                    <input type="text" asp-for="Address" class="form-control" />
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-sm-4">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

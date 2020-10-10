@@ -10,17 +10,8 @@ namespace Com.MrIT.DBEntities
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         { }
 
-        public virtual DbSet<LoginLog> LoginLogs { get; set; }
+        //public virtual DbSet<Sample> Samples { get; set; }
 
-        public virtual DbSet<ChangeLog> ChangeLogs { get; set; }
-
-        public virtual DbSet<EmailTemplate> EmailTemplates { get; set; }
-
-        public virtual DbSet<EmailLog> EmailLogs { get; set; }
-
-        public virtual DbSet<ErrorLog> ErrorLogs { get; set; }
-
-
-        public virtual DbSet<MrUser> MrUsers { get; set; }
+        public virtual DbSet<Staff> Staffs { get; set; }
     }
 }

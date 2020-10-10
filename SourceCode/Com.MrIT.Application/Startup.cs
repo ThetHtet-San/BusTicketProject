@@ -4,7 +4,9 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Com.MrIT.Common.Configuration;
+using Com.MrIT.DataRepository;
 using Com.MrIT.DBEntities;
+using Com.MrIT.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -109,11 +111,11 @@ namespace Com.MrIT.Application
         {
             //// Register for repository classes
             //services.AddScoped<IBranchRepository, BranchRepository>();
-           
+            services.AddScoped<IStaffRepository, StaffRepository>();
 
             //// Register for logic classes
             //services.AddScoped<IUserService, UserService>();
-            
+            services.AddScoped<IStaffService, StaffService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
