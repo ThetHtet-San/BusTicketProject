@@ -1,0 +1,163 @@
+﻿@model Com.MrIT.ViewModels.VmMrUserPage
+@{
+    ViewData["SuperTitle"] = "Staff";
+    ViewData["Title"] = "Listing";
+    Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+}
+
+<div class="card card-info">
+    <div class="card-body">
+        <div class="row">
+            <form class="col-sm-4 mb-2">
+                <div class="form-row">
+                    <div class="col-sm">
+                        <input id="txtKeyword" name="txtKeyword" class="form-control" value="@TempData["Keyword"]" placeholder="Search Here">
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-secondary" onclick="loadData(1)">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="table-responsive">
+                    <table class="table table-striped" style="min-width:900px;">
+                        <thead>
+                            <tr>
+                                <th style="width:5%"><a href="@Url.Action("StaffCreate", "Users")" class="btn btn-success ">New</a></th>
+                                <th style="width:10%">Full Name</th>
+                                <th style="width:10%">Email</th>
+                                <th style="width:10%">Mobile No</th>
+                                <th style="width:10%">User Role</th>
+                                <th style="width:10%">IsLocked</th>
+                                <th style="width:10%">Active</th>
+                                <th style="width:10%">Created Date</th>
+                                <th style="width:10%">Created By</th>
+                                <th style="width:10%">Modified Date</th>
+                                <th style="width:10%">Modified By</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                foreach (var item in Model.Result.Records)
+                                {
+                                    <tr>
+                                        <td>
+                                            <a href="@Url.Action("StaffEdit", "Users", new { a = System.Net.WebUtility.UrlEncode(item.EncryptId)})" class="btn btn-warning">Edit</a>
+
+                                        </td>
+                                        <td>@item.FullName </td>
+                                        <td>@item.Email </td>
+                                        <td>@item.MobileNo </td>
+                                        <td>@item.UserRole </td>
+                                        <td>
+                                            @{
+                                                if (item.IsLocked)
+                                                {
+                                                    <span class="lable label-success">Locked</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="lable label-danger">UnLocked</span>
+                                                }
+                                            }
+                                        </td>
+                                        <td>
+                                            @{
+                                                if (item.Active)
+                                                {
+                                                    <span class="lable label-success">Active</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="lable label-danger">Inactive</span>
+                                                }
+                                            }
+                                        </td>
+                                        <td>@Html.DisplayFor(modelitem => item.CreatedOn)</td>
+                                        <td>@item.CreatedBy</td>
+                                        <td>@Html.DisplayFor(modelitem => item.ModifiedOn)</td>
+                                        <td>@item.ModifiedBy</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer">
+        <div class="row">
+            <div class="col-sm-12">
+
+                @if (Model.Result.TotalPage > 1)
+                {
+                    int currentPage = Model.Result.CurrentPage;
+                    int totalPage = Model.Result.TotalPage;
+                    int previousPage = Model.Result.PreviousPage;
+                    int nextPage = Model.Result.NextPage;
+
+                    var startPage = currentPage - 5;
+                    var endPage = currentPage + 4;
+                    if (currentPage < 6)
+                    {
+                        startPage = 1;
+                    }
+                    if (totalPage < endPage)
+                    {
+                        endPage = totalPage;
+                    }
+                    <ul class="pagination">
+                        @if (currentPage > 1)
+                        {
+                            <li>
+                                <a onclick="loadData(1)">First</a>
+                            </li>
+                            <li>
+                                <a onclick="loadData(@(currentPage - 1))">Previous</a>
+                            </li>
+                        }
+
+                        @for (var page = startPage; page <= endPage; page++)
+                        {
+                            <li class="@(page == currentPage ? "active" : "")">
+                                <a onclick="loadData(@(page))"> @(page) </a>
+                            </li>
+                        }
+
+                        @if (currentPage < totalPage)
+                        {
+                            <li>
+                                <a onclick="loadData(@(currentPage + 1))">Next</a>
+                            </li>
+                            <li>
+                                <a onclick="loadData(@(totalPage))">Last</a>
+                            </li>
+                        }
+                    </ul>
+                }
+            </div>
+        </div>
+    </div>
+    <!-- /.box-footer -->
+
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script>
+    function loadData(n) {
+        var keyword = $('#txtKeyword').val();
+
+        window.location.href = "@Url.Action("StaffListing","Users")?page=" + n + "&keyword=" + keyword;
+    }
+</script>
+

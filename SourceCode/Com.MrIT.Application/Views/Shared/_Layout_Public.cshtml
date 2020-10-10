@@ -1,0 +1,262 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.AspNetCore.Http
+@inject IHtmlLocalizer<Com.MrIT.PublicSite.Models._Shared> SharedLocalizer
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>@ViewData["Title"]</title>
+    <!-- Tempusdominus Bbootstrap 4 -->
+    <link rel="stylesheet" href="~/themes/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="~/themes/plugins/fontawesome-free/css/all.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="~/themes/plugins/select2/css/select2.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/themes/dist/css/adminlte.min.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="~/themes/plugins/daterangepicker/daterangepicker.css">
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="~/themes/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 1300px;
+        }
+
+        /** Back to Top**/
+        #button {
+            display: inline-block;
+            background-color: #d9534f;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            border-radius: 4px;
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            transition: background-color .3s, opacity .5s, visibility .5s;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 1000;
+        }
+
+            #button::after {
+                content: "\f077";
+                font-family: FontAwesome;
+                font-weight: normal;
+                font-style: normal;
+                font-size: 2em;
+                line-height: 50px;
+                color: #fff;
+            }
+
+            #button:hover {
+                cursor: pointer;
+                background-color: #333;
+            }
+
+            #button:active {
+                background-color: #555;
+            }
+
+            #button.show {
+                opacity: 1;
+                visibility: visible;
+            }
+    </style>
+
+    <!-- jQuery -->
+    <script src="~/themes/plugins/jquery/jquery.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="~/themes/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/themes/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+</head>
+<body class="hold-transition layout-top-nav">
+    <div class="wrapper">
+        <!-- Back to top button -->
+        <a id="button"></a>
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand-md navbar-dark navbar-danger">
+            <div class="container">
+                <a href="@Url.Action("Index", "Home")" class="navbar-brand">
+                    <img src="~/themes/dist/img/AllLiveUp_Logo.jpeg" alt="All Live Up" class="brand-image img-circle elevation-3"
+                         style="opacity: .8">
+                    <span class="brand-text font-weight-light">All Live Up</span>
+                </a>
+
+                <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse order-3" id="navbarCollapse">
+                    <!-- Left navbar links -->
+                    <ul class="navbar-nav text-bold">
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "Home")" class="nav-link text-white">@SharedLocalizer["HOME"]</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("Listing", "Challenges")" class="nav-link text-white">@SharedLocalizer["CHALLENGE"]</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="@Url.Action("Index", "FAQs")" class="nav-link text-white">@SharedLocalizer["FAQ"]</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle  text-white">
+                                @SharedLocalizer["ABOUT"]
+                            </a>
+                            <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                                <li><a href="#" class="dropdown-item">@SharedLocalizer["Vision of SME Policy"]</a></li>
+                                <li><a href="#" class="dropdown-item">@SharedLocalizer["Brief History"]</a></li>
+                            </ul>
+                        </li>
+                        @{
+                            if (Context.Session.GetString("UserID") == null)
+                            {
+                                <li class="nav-item">
+                                    <a href="@Url.Action("SignIn", "Users")" class="nav-link text-white">@SharedLocalizer["SIGN IN/UP"]</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Listing", "DailyRecords")" class="nav-link text-white">@SharedLocalizer["DAILY RECORDS"]</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Listing", "ChallengeRegistrations")" class="nav-link text-white">@SharedLocalizer["REGISTERED CHLLENGES"]</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a id="dropdownMyAccount" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle text-white">
+                                        @SharedLocalizer["SETTING"]
+                                    </a>
+                                    <ul aria-labelledby="dropdownAccountSetting" class="dropdown-menu border-0 shadow">
+                                        <li><a href="@Url.Action("Profile", "Users")" class="dropdown-item">@SharedLocalizer["MY ACCOUNT"]</a></li>
+                                        <li><a href="@Url.Action("SignOut", "Users")" class="dropdown-item">@SharedLocalizer["LOGOUT"]</a></li>
+                                    </ul>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+
+                <!-- Right navbar links-->
+                <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+
+                    <li class="nav-item">
+                        @await Html.PartialAsync("_SelectCurrencyPartial")
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+        <!-- /.navbar -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+                <div class="container">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0 text-dark"> @ViewData["Title"]</h1>
+                        </div><!-- /.col -->
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                @{
+                                    if (ViewBag.Navi != null)
+                                    {
+                                        var navi = (List<string>)ViewBag.Navi;
+                                        int i = 1;
+                                        foreach (var item in navi)
+                                        {
+                                            if (i < navi.Count)
+                                            {
+
+                                                <li class="breadcrumb-item"><a href="#"> @item</a></li>
+                                            }
+                                            else
+                                            {
+                                                <li class="breadcrumb-item active">@item</li>
+                                            }
+
+                                            i++;
+                                        }
+                                    }
+                                }
+                            </ol>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </div>
+            <!-- /.content-header -->
+            <!-- Main content -->
+            <div class="content">
+                <div class="container">
+                    @RenderBody()
+                </div><!-- /.container-fluid -->
+            </div>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+            <div class="p-3">
+                <h5>Title</h5>
+                <p>Sidebar content</p>
+            </div>
+        </aside>
+        <!-- /.control-sidebar -->
+        <!-- Main Footer -->
+        <footer class="main-footer pt-5">
+            <!-- To the right -->
+            <div class="float-right d-none d-sm-inline">
+                @await Html.PartialAsync("_SelectLanguagePartial")
+            </div>
+            <!-- Default to the left -->
+            <strong>Copyright &copy; 2020 <a href="#">All Live Up</a>.</strong> All rights reserved.
+        </footer>
+    </div>
+
+    <!-- ./wrapper -->
+    <!-- REQUIRED SCRIPTS -->
+    <!-- AdminLTE App -->
+    <script src="~/themes/dist/js/adminlte.min.js"></script>
+    <script src="~/themes/plugins/moment/moment.min.js"></script>
+    <script src="~/themes/plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/themes/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Select2 -->
+    <script src="~/themes/plugins/select2/js/select2.full.min.js"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="~/themes/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+    @RenderSection("Scripts", required: false)
+    <script>
+
+        /** Back to Top **/
+        var btn = $('#button');
+
+        $(window).scroll(function () {
+            if ($(window).scrollTop() > 300) {
+                btn.addClass('show');
+            } else {
+                btn.removeClass('show');
+            }
+        });
+
+        btn.on('click', function (e) {
+            e.preventDefault();
+            $('html, body').animate({ scrollTop: 0 }, '300');
+        });
+    </script>
+</body>
+</html>

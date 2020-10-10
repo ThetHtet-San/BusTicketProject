@@ -1,0 +1,13 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/Com.MMI.Project/.vs/Com.MMI.ActionFlowEngine/v16
+
+
+.vs/
+*bin/
+*obj/
+*Logs
+*.cache
+
