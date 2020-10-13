@@ -51,7 +51,7 @@ namespace Com.MrIT.PublicSite.Controllers
         {
             try
             {
-                a = Md5.Decrypt(System.Web.HttpUtility.UrlDecode(a));
+                a = Md5.Decrypt(System.Net.WebUtility.UrlDecode(a));
                 int id = 0;
                 int.TryParse(a, out id);
                 var result = _svsStaff.GetStaff(id);
@@ -87,7 +87,7 @@ namespace Com.MrIT.PublicSite.Controllers
         {
             try
             {
-                a = Md5.Decrypt(System.Web.HttpUtility.UrlDecode(a));
+                a = Md5.Decrypt(System.Net.WebUtility.UrlDecode(a));
                 int id = 0;
                 int.TryParse(a, out id);
                 var result = _svsStaff.GetStaff(id);
