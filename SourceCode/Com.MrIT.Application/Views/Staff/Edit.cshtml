@@ -14,7 +14,7 @@
                 <div class="col-sm-4">
                     <input type="text" asp-for="Code" class="form-control" />
                     <input type="hidden" asp-for="ID" />
-                    <input type="hidden" asp-for="Active" />
+
                     <input type="hidden" asp-for="SystemActive" />
                     <input type="hidden" asp-for="CreatedBy" />
                     <input type="hidden" asp-for="CreatedOn" />
@@ -36,6 +36,15 @@
                 </div>
                 <div class="col-sm-4">
                     <input type="text" asp-for="Address" class="form-control" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <label asp-for="Active"></label>
+                </div>
+                <div class="col-sm-4">
+                    <input type="checkbox" asp-for="Active" />
                 </div>
             </div>
             <br />
