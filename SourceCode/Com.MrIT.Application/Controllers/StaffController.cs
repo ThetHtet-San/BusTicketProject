@@ -102,5 +102,45 @@ namespace Com.MrIT.PublicSite.Controllers
                 return RedirectToAction("Listing", "Staff");
             }
         }
+
+        [HttpGet]
+        public IActionResult CreateEducation(string a)
+        {
+            try
+            {
+                a = Md5.Decrypt(System.Net.WebUtility.UrlDecode(a));
+                int id = 0;
+                int.TryParse(a, out id);
+                var checkStaff = _svsStaff.GetStaff(id);
+                if (checkStaff == null)
+                {
+                    return RedirectToAction("Listing", "Staff");
+                }
+                var staffEducation = new VmStaffEducation();
+                staffEducation.StaffID = id;
+                return View(staffEducation);
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Listing", "Staff");
+            }
+            
+        }
+
+        [HttpPost]
+        public IActionResult CreateEducation(VmStaffEducation staffEducation)
+        {
+            staffEducation.CreatedBy = staffEducation.ModifiedBy = "System"; //Session["LogOnUser"]
+            var result = _svsStaff.CreateStaffEducation(staffEducation);
+            if (result.IsSuccess)
+            {
+                return RedirectToAction("Listing", "Staff");
+            }
+            else
+            {
+                return RedirectToAction("Detail", "Staff", new {a= System.Net.WebUtility.UrlEncode(Md5.Encrypt(staffEducation.StaffID.ToString())) });
+            }
+
+        }
     }
 }

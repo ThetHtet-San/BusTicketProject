@@ -1,8 +1,10 @@
 ﻿using Com.MrIT.Common;
 using Com.MrIT.DBEntities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,6 +19,11 @@ namespace Com.MrIT.DataRepository
 
         }
 
+        public Staff GetStaff(int id)
+        {
+            var record = this.entities.Include(e=>e.Educations).Where(e => e.ID == id).SingleOrDefault();
 
+            return record;
+        }
     }
 }

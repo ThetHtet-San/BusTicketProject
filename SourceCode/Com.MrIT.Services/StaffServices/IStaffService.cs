@@ -15,5 +15,7 @@ namespace Com.MrIT.Services
         List<VmStaff> GetAllStaff();
 
         VmStaff GetStaff(int id);
+
+        VmGenericServiceResult CreateStaffEducation(VmStaffEducation staffEducation);
     }
 }

@@ -1,0 +1,19 @@
+﻿CREATE TABLE `ojt_teammu`.`staff_education` (
+  `ID` INT(11) NOT NULL AUTO_INCREMENT,
+  `Active` BIT(1) NULL DEFAULT NULL,
+  `SystemActive` BIT(1) NULL DEFAULT NULL,
+  `CreatedBy` VARCHAR(45) NULL DEFAULT NULL,
+  `CreatedOn` DATETIME NULL DEFAULT NULL,
+  `ModifiedBy` VARCHAR(45) NULL DEFAULT NULL,
+  `ModifiedOn` DATETIME NULL DEFAULT NULL,
+  `StaffID` INT(11) NOT NULL,
+  `Type` VARCHAR(45) NULL,
+  `Description` VARCHAR(100) NULL,
+  `Year` INT(11) NULL,
+  PRIMARY KEY (`ID`),
+  INDEX `fk_Staff_Education_idx` (`StaffID` ASC) VISIBLE,
+  CONSTRAINT `fk_Staff_Education`
+    FOREIGN KEY (`StaffID`)
+    REFERENCES `ojt_teammu`.`staff` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);

@@ -12,6 +12,7 @@ namespace Com.MrIT.ViewModels
         public string Name { get; set; }
         public string Address { get; set; }
 
+        public List<VmStaffEducation> EducationList { get; set; }
     }
 
    

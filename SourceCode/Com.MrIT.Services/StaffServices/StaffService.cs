@@ -14,10 +14,12 @@ namespace Com.MrIT.Services
     public class StaffService : BaseService, IStaffService
     {
         private readonly IStaffRepository _repoStaff;
+        private readonly IStaffEducationRepository _repoStaffEducation;
         private readonly AppSettings _appSettings;
-        public StaffService(IStaffRepository repoStaff, IOptions<AppSettings> appSettings)
+        public StaffService(IStaffRepository repoStaff, IStaffEducationRepository repoStaffEducation, IOptions<AppSettings> appSettings)
         {
             this._repoStaff = repoStaff;
+            this._repoStaffEducation = repoStaffEducation;
             this._appSettings = appSettings.Value;
         }
 
@@ -86,7 +88,7 @@ namespace Com.MrIT.Services
 
         public VmStaff GetStaff(int id)
         {
-            var dbStaff = _repoStaff.GetWithoutAsync(id);
+            var dbStaff = _repoStaff.GetStaff(id);
             if (dbStaff == null)
             {
                 return null;
@@ -94,6 +96,45 @@ namespace Com.MrIT.Services
             var result = new VmStaff();
             Copy<Staff, VmStaff>(dbStaff, result);
             result.EncryptId = Md5.Encrypt(result.ID.ToString());
+
+            result.EducationList = new List<VmStaffEducation>();
+            if(dbStaff.Educations != null)
+            {
+                foreach( var dbItem in dbStaff.Educations)
+                {
+                    if(dbItem.Active && dbItem.SystemActive)
+                    {
+                        var resultItem = new VmStaffEducation();
+                        Copy<StaffEducation, VmStaffEducation>(dbItem, resultItem);
+                        resultItem.EncryptId = Md5.Encrypt(resultItem.ID.ToString());
+
+                        result.EducationList.Add(resultItem);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public VmGenericServiceResult CreateStaffEducation(VmStaffEducation staffEducation)
+        {
+            //return format
+            var result = new VmGenericServiceResult();
+            try
+            {
+                var dbStaffEducation = new StaffEducation();
+                Copy<VmStaffEducation, StaffEducation>(staffEducation, dbStaffEducation);
+                var dbResult = _repoStaffEducation.Add(dbStaffEducation);
+
+                result.IsSuccess = true;
+                result.MessageToUser = "Success";
+                result.RequestId = dbResult.ID.ToString();
+            }
+            catch (Exception ex)
+            {
+                result.IsSuccess = false;
+                result.MessageToUser = "Error while creating data. Please log a ticket at Web helpdesk."; //ex.Message;
+            }
 
             return result;
         }
