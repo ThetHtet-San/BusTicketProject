@@ -144,6 +144,47 @@ namespace Com.MrIT.PublicSite.Controllers
 
         }
 
+
+        [HttpGet]
+        public IActionResult EditEducation(string a)
+        {
+            try
+            {
+                a = Md5.Decrypt(System.Net.WebUtility.UrlDecode(a));
+                int id = 0;
+                int.TryParse(a, out id);
+                var staffEducation = _svsStaff.GetStaffEducation(id);
+                if (staffEducation == null)
+                {
+                    return RedirectToAction("Listing", "Staff");
+                }
+               
+                return View(staffEducation);
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Listing", "Staff");
+            }
+
+        }
+
+        [HttpPost]
+        public IActionResult EditEducation(VmStaffEducation staffEducation)
+        {
+            staffEducation.ModifiedBy = "System"; //Session["LogOnUser"]
+            var result = _svsStaff.EditStaffEducation(staffEducation);
+            if (result.IsSuccess)
+            {
+                return RedirectToAction("Listing", "Staff");
+            }
+            else
+            {
+                return RedirectToAction("Detail", "Staff", new { a = System.Net.WebUtility.UrlEncode(Md5.Encrypt(staffEducation.StaffID.ToString())) });
+            }
+
+        }
+
+
         public IActionResult CreateExperience(string a)
         {
             try

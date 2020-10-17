@@ -37,6 +37,20 @@ namespace Com.MrIT.Services
                 Copy<VmStaff, Staff>(staff, dbStaff);
                 var dbResult = _repoStaff.Add(dbStaff);
 
+                if(staff.EducationList != null)
+                {
+                    foreach(var item in staff.EducationList)
+                    {
+                        var dbStaffEducation = new StaffEducation();
+                        item.StaffID = dbResult.ID;
+                        item.CreatedBy = item.ModifiedBy = dbResult.CreatedBy;
+                        Copy<VmStaffEducation, StaffEducation>(item, dbStaffEducation);
+
+                        _repoStaffEducation.Add(dbStaffEducation);
+
+                    }
+                }
+
                 result.IsSuccess = true;
                 result.MessageToUser = "Success";
                 result.RequestId = dbResult.ID.ToString();
@@ -157,6 +171,40 @@ namespace Com.MrIT.Services
                 result.IsSuccess = false;
                 result.MessageToUser = "Error while creating data. Please log a ticket at Web helpdesk."; //ex.Message;
             }
+
+            return result;
+        }
+
+        public VmGenericServiceResult EditStaffEducation(VmStaffEducation staffEducation)
+        {
+            //return format
+            var result = new VmGenericServiceResult();
+            try
+            {
+                var dbStaffEducation = new StaffEducation();
+                Copy<VmStaffEducation, StaffEducation>(staffEducation, dbStaffEducation);
+                var dbResult = _repoStaffEducation.Update(dbStaffEducation);
+
+                result.IsSuccess = true;
+                result.MessageToUser = "Success";
+                result.RequestId = dbResult.ID.ToString();
+            }
+            catch (Exception ex)
+            {
+                result.IsSuccess = false;
+                result.MessageToUser = "Error while updating data. Please log a ticket at Web helpdesk."; //ex.Message;
+            }
+
+            return result;
+        }
+
+        public VmStaffEducation GetStaffEducation(int id)
+        {
+            var result = new VmStaffEducation();
+
+            var dbResult = _repoStaffEducation.GetWithoutAsync(id);
+            Copy<StaffEducation, VmStaffEducation>(dbResult, result);
+            result.EncryptId = Md5.Encrypt(result.ID.ToString());
 
             return result;
         }

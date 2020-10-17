@@ -1,6 +1,7 @@
 ﻿using Com.MrIT.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,6 +25,10 @@ namespace Com.MrIT.Services
         #region Education
 
         VmGenericServiceResult CreateStaffEducation(VmStaffEducation staffEducation);
+
+        VmGenericServiceResult EditStaffEducation(VmStaffEducation staffEducation);
+
+        VmStaffEducation GetStaffEducation(int id);
 
         #endregion
 
