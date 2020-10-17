@@ -8,6 +8,8 @@ namespace Com.MrIT.Services
 {
     public interface IStaffService
     {
+       
+        #region Staff
         VmGenericServiceResult CreateStaff(VmStaff staff);
 
         VmGenericServiceResult UpdateStaff(VmStaff staff);
@@ -16,6 +18,19 @@ namespace Com.MrIT.Services
 
         VmStaff GetStaff(int id);
 
+
+        #endregion
+
+        #region Education
+
         VmGenericServiceResult CreateStaffEducation(VmStaffEducation staffEducation);
+
+        #endregion
+
+        #region Experience
+
+        VmGenericServiceResult CreateStaffExperience(VmStaffExperience staffExperience);
+
+        #endregion
     }
 }

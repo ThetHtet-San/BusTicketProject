@@ -6,6 +6,7 @@ using Com.MrIT.ViewModels;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,14 +16,17 @@ namespace Com.MrIT.Services
     {
         private readonly IStaffRepository _repoStaff;
         private readonly IStaffEducationRepository _repoStaffEducation;
+        private readonly IStaffExperienceRepository _repoStaffExperience;
         private readonly AppSettings _appSettings;
-        public StaffService(IStaffRepository repoStaff, IStaffEducationRepository repoStaffEducation, IOptions<AppSettings> appSettings)
+        public StaffService(IStaffRepository repoStaff, IStaffEducationRepository repoStaffEducation, IStaffExperienceRepository repoStaffExperience, IOptions<AppSettings> appSettings)
         {
             this._repoStaff = repoStaff;
+            this._repoStaffExperience = repoStaffExperience;
             this._repoStaffEducation = repoStaffEducation;
             this._appSettings = appSettings.Value;
         }
 
+        #region Staff
         public VmGenericServiceResult CreateStaff(VmStaff staff)
         {
             //return format
@@ -97,12 +101,28 @@ namespace Com.MrIT.Services
             Copy<Staff, VmStaff>(dbStaff, result);
             result.EncryptId = Md5.Encrypt(result.ID.ToString());
 
-            result.EducationList = new List<VmStaffEducation>();
-            if(dbStaff.Educations != null)
+            result.Experiences = new List<VmStaffExperience>();
+            if(dbStaff.Experiences != null)
             {
-                foreach( var dbItem in dbStaff.Educations)
+                foreach( var dbItem in dbStaff.Experiences)
                 {
-                    if(dbItem.Active && dbItem.SystemActive)
+                    if(dbItem.Active && dbItem.SystemActive == true)
+                    {
+                        var resultItem = new VmStaffExperience();
+                        Copy<StaffExperience, VmStaffExperience>(dbItem, resultItem);
+                        resultItem.EncryptId = Md5.Encrypt(resultItem.ID.ToString());
+
+                        result.Experiences.Add(resultItem);
+                    }
+                }
+            }
+
+            result.EducationList = new List<VmStaffEducation>();
+            if (dbStaff.Educations != null)
+            {
+                foreach (var dbItem in dbStaff.Educations)
+                {
+                    if (dbItem.Active && dbItem.SystemActive)
                     {
                         var resultItem = new VmStaffEducation();
                         Copy<StaffEducation, VmStaffEducation>(dbItem, resultItem);
@@ -115,7 +135,9 @@ namespace Com.MrIT.Services
 
             return result;
         }
+        #endregion
 
+        #region Education
         public VmGenericServiceResult CreateStaffEducation(VmStaffEducation staffEducation)
         {
             //return format
@@ -138,6 +160,34 @@ namespace Com.MrIT.Services
 
             return result;
         }
+        #endregion
+
+        #region Experience
+        public VmGenericServiceResult CreateStaffExperience(VmStaffExperience staffExperience)
+        {
+            var result = new VmGenericServiceResult();
+
+            var dbStaffExperience = new StaffExperience();
+            Copy<VmStaffExperience, StaffExperience>(staffExperience, dbStaffExperience);
+
+            var dbResult = _repoStaffExperience.Add(dbStaffExperience);
+
+            result.IsSuccess = true;
+            result.MessageToUser = "Sucessfully created.";
+
+            result.RequestId = dbResult.ID.ToString();
+
+
+            return result;
+        }
+        #endregion
+
+
+
+
+
+
+
 
     }
 }

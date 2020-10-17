@@ -71,5 +71,42 @@
                 </table>
             </div>
         </div>
+
+        <br />
+        <div class="row">
+            <div class="col-sm-12">
+                <a href="@Url.Action("CreateExperience","Staff", new { a= System.Net.WebUtility.UrlEncode(Model.EncryptId)}) " class="btn btn-primary">New Experience</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Position</th>
+                            <th>Company</th>
+                            <th>From Year</th>
+                            <th>To Year</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            foreach (var item in Model.Experiences)
+                            {
+                                <tr>
+                                    <td> <a href="@Url.Action("EditExperience","Staff" , new { a= System.Net.WebUtility.UrlEncode(item.EncryptId)})">Edit</a></td>
+                                    <td>@item.Position </td>
+                                    <td> @item.Company</td>
+                                    <td>@item.FromYear</td>
+                                    <td>@item.ToYear</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
     </div>
 </div>

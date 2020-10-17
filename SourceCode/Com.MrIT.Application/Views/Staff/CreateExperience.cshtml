@@ -1,0 +1,56 @@
+﻿@model Com.MrIT.ViewModels.VmStaffExperience
+@{
+    ViewData["Title"] = "Create Experience";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <form asp-action="CreateExperience" method="post">
+            <div class="row">
+                <div class="col-sm-4">
+                    <label asp-for="Position"></label>
+                </div>
+                <div class="col-sm-4">
+                    <input type="hidden" asp-for="StaffID" />
+                    <input type="text" asp-for="Position" class="form-control" />
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-sm-4">
+                    <label asp-for="Company"></label>
+                </div>
+                <div class="col-sm-4">
+                    <input type="text" asp-for="Company" class="form-control" />
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-sm-4">
+                    <label asp-for="FromYear"></label>
+                </div>
+                <div class="col-sm-4">
+                    <input type="text" asp-for="FromYear" class="form-control" />
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-sm-4">
+                    <label asp-for="ToYear"></label>
+                </div>
+                <div class="col-sm-4">
+                    <input type="text" asp-for="ToYear" class="form-control" />
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-sm-4">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

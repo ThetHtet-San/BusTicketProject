@@ -13,6 +13,8 @@ namespace Com.MrIT.ViewModels
         public string Address { get; set; }
 
         public List<VmStaffEducation> EducationList { get; set; }
+
+        public List<VmStaffExperience> Experiences { get; set; }
     }
 
    

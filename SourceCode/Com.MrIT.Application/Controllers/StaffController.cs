@@ -43,7 +43,7 @@ namespace Com.MrIT.PublicSite.Controllers
             {
                 return View(staff);
             }
-            
+
         }
 
         [HttpGet]
@@ -55,12 +55,13 @@ namespace Com.MrIT.PublicSite.Controllers
                 int id = 0;
                 int.TryParse(a, out id);
                 var result = _svsStaff.GetStaff(id);
-                if(result == null)
+                if (result == null)
                 {
                     return RedirectToAction("Listing", "Staff");
                 }
                 return View(result);
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 return RedirectToAction("Listing", "Staff");
             }
@@ -124,7 +125,7 @@ namespace Com.MrIT.PublicSite.Controllers
             {
                 return RedirectToAction("Listing", "Staff");
             }
-            
+
         }
 
         [HttpPost]
@@ -138,8 +139,42 @@ namespace Com.MrIT.PublicSite.Controllers
             }
             else
             {
-                return RedirectToAction("Detail", "Staff", new {a= System.Net.WebUtility.UrlEncode(Md5.Encrypt(staffEducation.StaffID.ToString())) });
+                return RedirectToAction("Detail", "Staff", new { a = System.Net.WebUtility.UrlEncode(Md5.Encrypt(staffEducation.StaffID.ToString())) });
             }
+
+        }
+
+        public IActionResult CreateExperience(string a)
+        {
+            try
+            {
+                a = Md5.Decrypt(System.Net.WebUtility.UrlDecode(a));
+                int id = 0;
+                int.TryParse(a, out id);
+                var checkStaff = _svsStaff.GetStaff(id);
+                if (checkStaff == null)
+                {
+                    return RedirectToAction("Listing", "Staff");
+                }
+
+                var staffExperience = new VmStaffExperience();
+                staffExperience.StaffID = id;
+
+                return View(staffExperience);
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Listing", "Staff");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult CreateExperience(VmStaffExperience staffExperience)
+        {
+            staffExperience.CreatedBy = staffExperience.ModifiedBy = "System"; //Session["LogOnUser"]
+            var result = _svsStaff.CreateStaffExperience(staffExperience);
+
+            return RedirectToAction("Detail", "Staff", new { a = System.Net.WebUtility.UrlEncode(Md5.Encrypt(staffExperience.StaffID.ToString())) });
 
         }
     }

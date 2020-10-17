@@ -113,6 +113,7 @@ namespace Com.MrIT.Application
             //services.AddScoped<IBranchRepository, BranchRepository>();
             services.AddScoped<IStaffRepository, StaffRepository>();
             services.AddScoped<IStaffEducationRepository, StaffEducationRepository>();
+            services.AddScoped<IStaffExperienceRepository, StaffExperienceRepository>();
 
             //// Register for logic classes
             //services.AddScoped<IUserService, UserService>();

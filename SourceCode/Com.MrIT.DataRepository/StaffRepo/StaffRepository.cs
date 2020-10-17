@@ -21,7 +21,8 @@ namespace Com.MrIT.DataRepository
 
         public Staff GetStaff(int id)
         {
-            var record = this.entities.Include(e=>e.Educations).Where(e => e.ID == id).SingleOrDefault();
+            var record = this.entities.Include(e => e.Educations).Include(e => e.Experiences)
+                  .Where(e => e.ID == id).SingleOrDefault();
 
             return record;
         }

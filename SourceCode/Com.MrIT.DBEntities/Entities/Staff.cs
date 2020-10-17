@@ -16,5 +16,7 @@ namespace Com.MrIT.DBEntities
 
         public ICollection<StaffEducation> Educations { get; set; }
 
+        public ICollection<StaffExperience> Experiences { get; set; }
+
     }
 }
