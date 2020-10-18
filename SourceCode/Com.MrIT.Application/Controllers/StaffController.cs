@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using ClosedXML.Excel;
 using Com.MrIT.Common;
 using Com.MrIT.Services;
 using Com.MrIT.ViewModels;
@@ -22,6 +24,38 @@ namespace Com.MrIT.PublicSite.Controllers
         {
             var result = _svsStaff.GetAllStaff();
             return View(result);
+        }
+
+        [HttpGet]
+        public IActionResult ExportToExcel()
+        {
+            var staffList = _svsStaff.GetAllStaff();
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Staff");
+                var currentRow = 1;
+                worksheet.Cell(currentRow, 1).Value = "Code";
+                worksheet.Cell(currentRow, 2).Value = "Name";
+                worksheet.Cell(currentRow, 3).Value = "Address";
+                foreach (var staff in staffList)
+                {
+                    currentRow++;
+                    worksheet.Cell(currentRow, 1).Value = staff.Code;
+                    worksheet.Cell(currentRow, 2).Value = staff.Name;
+                    worksheet.Cell(currentRow, 3).Value = staff.Address;
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+                    string fileName = "staff" + DateTime.Now.ToString("yyyyMMddHHmmss") +".xlsx";
+                    return File(
+                        content,
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        fileName);
+                }
+            }
         }
 
         [HttpGet]
