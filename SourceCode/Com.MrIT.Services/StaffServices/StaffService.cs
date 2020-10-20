@@ -37,6 +37,18 @@ namespace Com.MrIT.Services
                 Copy<VmStaff, Staff>(staff, dbStaff);
                 var dbResult = _repoStaff.Add(dbStaff);
 
+                if(staff.Experiences != null)
+                {
+                    foreach(var item in staff.Experiences)
+                    {
+                        item.StaffID = dbResult.ID;
+                        item.CreatedBy = item.ModifiedBy = dbResult.CreatedBy;
+                        var dbStaffExperience = new StaffExperience();
+                        Copy<VmStaffExperience, StaffExperience>(item, dbStaffExperience);
+                        _repoStaffExperience.Add(dbStaffExperience);
+                    }
+                }
+
                 if(staff.EducationList != null)
                 {
                     foreach(var item in staff.EducationList)

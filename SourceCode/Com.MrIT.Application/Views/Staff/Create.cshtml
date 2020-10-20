@@ -57,7 +57,7 @@
                                     <input type="text" name="EducationList[0].Description" value="" class="form-control" />
                                 </td>
                                 <td>
-                                    <input type="text" name="EducationList[0].Year" value="" class="form-control" />
+                                    <input type="number" name="EducationList[0].Year" value="" class="form-control" />
                                 </td>
                                 <td>
                                     <button class='btn btn-danger' type='button' title='Remove' onClick='RemoveRow(this)'> X </button>
@@ -71,6 +71,37 @@
             </div>
             <br />
             <div class="row">
+                <div class="col-sm-12">
+                    <h3>Experience</h3>
+                    <input type="hidden" id="hdtblIDExp" name="hdtblIDExp" value="1" />
+                    <table class="table table-striped" id="tblExperience" >
+                        <thead>
+                            <tr>
+                                <th>Position</th>
+                                <th>Company</th>
+                                <th>From year</th>
+                                <th>To year</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type='hidden' name='Experiences.Index' value='0' />
+                                    <input type='text' name='Experiences[0].Position' class='form-control' value='' />
+                                </td>
+                                <td> <input type='text' name='Experiences[0].Company' class='form-control' value='' /></td>
+                                <td> <input type='number' name='Experiences[0].FromYear' class='form-control' value='' /></td>
+                                <td> <input type='number' name='Experiences[0].ToYear' class='form-control' value='' /></td>
+                                <td> <button class='btn btn-danger' type='button' title='Remove' onClick='RemoveRow(this)'> X </button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button class="btn btn-success" id="btnNewExperience" type="button"> Add Experience</button>
+                </div>
+            </div>
+            <br />
+            <div class="row">
                 <div class="col-sm-4">
                     <button type="submit" class="btn btn-primary">Save</button>
                 </div>
@@ -80,13 +111,33 @@
 </div>
 
 <script>
+
+    $('#btnNewExperience').click(function () {
+
+
+        var tblID = parseInt($('#hdtblIDExp').val());
+
+        var tagRow = "<tr>";
+        tagRow = tagRow + "<td> <input type='hidden' name='Experiences.Index' value='" + tblID + "' /> <input type='text' name='Experiences[" + tblID + "].Position' class='form-control' value='' /></td>";
+        tagRow = tagRow + "<td> <input type='text' name='Experiences[" + tblID + "].Company' class='form-control' value='' /></td>";
+        tagRow = tagRow + "<td><input type='number' name='Experiences[" + tblID + "].FromYear' class='form-control' value='' /> </td>";
+        tagRow = tagRow + "<td><input type='number' name='Experiences[" + tblID + "].ToYear' class='form-control' value='' /> </td>";
+        tagRow = tagRow + "<td> <button class='btn btn-danger' type='button' title='Remove' onClick='RemoveRow(this)'> X </button></td>";
+        tagRow = tagRow + "</tr>";
+
+        $("#tblExperience > tbody").append(tagRow);
+
+        tblID = tblID + 1;
+        $("#hdtblIDExp").val(tblID);
+    });
+
     $('#btnNewEducation').click(function () {
         var tblID = parseInt($('#hdTableID').val());
 
         var tagRow = "<tr>";
         tagRow = tagRow + "<td><input type='hidden' name='EducationList.Index' value='" + tblID + "' /> <input type='text' name='EducationList[" + tblID + "].Type' value='' class='form-control' /> </td>";
         tagRow = tagRow + "<td><input type='text' name='EducationList[" + tblID + "].Description' value='' class='form-control' /> </td>";
-        tagRow = tagRow + "<td><input type='text' name='EducationList[" + tblID + "].Year' value='' class='form-control' /> </td>";
+        tagRow = tagRow + "<td><input type='number' name='EducationList[" + tblID + "].Year' value='' class='form-control' /> </td>";
         tagRow = tagRow + "<td><button class='btn btn-danger' type='button' title='Remove' onClick='RemoveRow(this)'> X </button></td>";
         tagRow = tagRow + "</tr>";
 
