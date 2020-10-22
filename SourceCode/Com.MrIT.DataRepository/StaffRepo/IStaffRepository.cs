@@ -10,5 +10,7 @@ namespace Com.MrIT.DataRepository
     public interface IStaffRepository : IGenericRepository<Staff>
     {
         Staff GetStaff(int id);
+
+        
     }
 }

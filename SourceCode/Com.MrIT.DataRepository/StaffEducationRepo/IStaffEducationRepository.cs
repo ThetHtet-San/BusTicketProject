@@ -9,6 +9,6 @@ namespace Com.MrIT.DataRepository
 {
     public interface IStaffEducationRepository : IGenericRepository<StaffEducation>
     {
-
+        List<StaffEducation> GetOldEducationList(int StaffID);
     }
 }

@@ -88,11 +88,22 @@
                             <tr>
                                 <td>
                                     <input type='hidden' name='Experiences.Index' value='0' />
-                                    <input type='text' name='Experiences[0].Position' class='form-control' value='' />
+                                    <input type='hidden' class='ExperienceItemID' name='ItemID' value='0' />
+                                    <input type='text' id='Experiences_0_Position' name='Experiences[0].Position' class='form-control' value='' />
+                                    <span id='Err_Experiences_0_Position' class='text-danger'></span>
                                 </td>
-                                <td> <input type='text' name='Experiences[0].Company' class='form-control' value='' /></td>
-                                <td> <input type='number' name='Experiences[0].FromYear' class='form-control' value='' /></td>
-                                <td> <input type='number' name='Experiences[0].ToYear' class='form-control' value='' /></td>
+                                <td>
+                                    <input type='text' id='Experiences_0_Company' name='Experiences[0].Company' class='form-control' value='' />
+                                    <span id='Err_Experiences_0_Company' class='text-danger'></span>
+                                </td>
+                                <td>
+                                    <input type='number' id='Experiences_0_FromYear' name='Experiences[0].FromYear' class='form-control' value='' />
+                                    <span id='Err_Experiences_0_FromYear' class='text-danger'></span>
+                                </td>
+                                <td>
+                                    <input type='number' id='Experiences_0_ToYear' name='Experiences[0].ToYear' class='form-control' value='' />
+                                    <span id='Err_Experiences_0_ToYear' class='text-danger'></span>
+                                </td>
                                 <td> <button class='btn btn-danger' type='button' title='Remove' onClick='RemoveRow(this)'> X </button></td>
                             </tr>
                         </tbody>
@@ -113,22 +124,22 @@
 <script>
 
     $('#btnNewExperience').click(function () {
+        if (ValidateExperienceRow()) {
+            var tblID = parseInt($('#hdtblIDExp').val());
 
+            var tagRow = "<tr>";
+            tagRow = tagRow + "<td> <input type='hidden' name='Experiences.Index' value='" + tblID + "' /> <input  id='Experiences_" + tblID + "_Position' type='text' name='Experiences[" + tblID + "].Position' class='form-control' value='' /> <input type='hidden' class='ExperienceItemID' name='ItemID' value='" + tblID + "' /> <span id='Err_Experiences_" + tblID + "_Position' class='text-danger'></span></td > ";
+            tagRow = tagRow + "<td> <input type='text' name='Experiences[" + tblID + "].Company' class='form-control' value='' /></td>";
+            tagRow = tagRow + "<td><input type='number' name='Experiences[" + tblID + "].FromYear' class='form-control' value='' /> </td>";
+            tagRow = tagRow + "<td><input type='number' name='Experiences[" + tblID + "].ToYear' class='form-control' value='' /> </td>";
+            tagRow = tagRow + "<td> <button class='btn btn-danger' type='button' title='Remove' onClick='RemoveRow(this)'> X </button></td>";
+            tagRow = tagRow + "</tr>";
 
-        var tblID = parseInt($('#hdtblIDExp').val());
+            $("#tblExperience > tbody").append(tagRow);
 
-        var tagRow = "<tr>";
-        tagRow = tagRow + "<td> <input type='hidden' name='Experiences.Index' value='" + tblID + "' /> <input type='text' name='Experiences[" + tblID + "].Position' class='form-control' value='' /></td>";
-        tagRow = tagRow + "<td> <input type='text' name='Experiences[" + tblID + "].Company' class='form-control' value='' /></td>";
-        tagRow = tagRow + "<td><input type='number' name='Experiences[" + tblID + "].FromYear' class='form-control' value='' /> </td>";
-        tagRow = tagRow + "<td><input type='number' name='Experiences[" + tblID + "].ToYear' class='form-control' value='' /> </td>";
-        tagRow = tagRow + "<td> <button class='btn btn-danger' type='button' title='Remove' onClick='RemoveRow(this)'> X </button></td>";
-        tagRow = tagRow + "</tr>";
-
-        $("#tblExperience > tbody").append(tagRow);
-
-        tblID = tblID + 1;
-        $("#hdtblIDExp").val(tblID);
+            tblID = tblID + 1;
+            $("#hdtblIDExp").val(tblID);
+        }
     });
 
     $('#btnNewEducation').click(function () {
@@ -146,6 +157,25 @@
         tblID = tblID + 1;
         $("#hdTableID").val(tblID);
     });
+
+
+    function ValidateExperienceRow() {
+        var status = true;
+        $(".ExperienceItemID").each(function () {
+            var itemId = $(this).val();
+            var position = $("#Experiences_" + itemId + "_Position").val();
+           
+            if (position == "") {
+                status = false;
+                $("#Err_Experiences_" + itemId + "_Position").html("*Required Field.");
+            } else {
+                $("#Err_Experiences_" + itemId + "_Position").empty();
+            }
+        });
+
+        return status;
+    }
+
 
     function RemoveRow(obj) {
         $(obj).parent().parent().remove();

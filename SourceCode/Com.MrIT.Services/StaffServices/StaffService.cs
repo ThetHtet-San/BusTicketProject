@@ -3,9 +3,11 @@ using Com.MrIT.Common.Configuration;
 using Com.MrIT.DataRepository;
 using Com.MrIT.DBEntities;
 using Com.MrIT.ViewModels;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -84,6 +86,76 @@ namespace Com.MrIT.Services
             {
                 var dbStaff = new Staff();
                 Copy<VmStaff, Staff>(staff, dbStaff);
+                var dbResult = _repoStaff.Update(dbStaff);
+
+                if(staff.EducationList != null)
+                {
+                    //get id list from old record 
+                    var oldIDs = staff.EducationList.Where(e => e.ID != 0).Select(e => e.ID).ToList();
+
+                    var oldEducationList = _repoStaffEducation.GetOldEducationList(dbStaff.ID);
+                    foreach(var item in oldEducationList.Where(e=> !oldIDs.Contains(e.ID)).ToList()) //get removed item
+                    {
+                        //disable 
+                        item.Active = false;
+                        item.ModifiedBy = dbStaff.ModifiedBy;
+                        _repoStaffEducation.Update(item);
+                    }
+
+                    foreach(var item in staff.EducationList)
+                    {
+                        if (item.ID == 0)
+                        {
+                            //add new
+                            var dbItem = new StaffEducation();
+                            item.CreatedBy = item.ModifiedBy = dbStaff.ModifiedBy;
+                            item.StaffID = dbStaff.ID;
+                            Copy<VmStaffEducation, StaffEducation>(item, dbItem);
+
+                            _repoStaffEducation.Add(dbItem);
+                        }
+                        else
+                        {
+                            //update
+                            var dbItem = new StaffEducation();
+                            item.ModifiedBy = dbStaff.ModifiedBy;
+                            Copy<VmStaffEducation, StaffEducation>(item, dbItem);
+
+                            _repoStaffEducation.Update(dbItem);
+                        }
+                    }
+
+
+
+                }
+
+                result.IsSuccess = true;
+                result.MessageToUser = "Success";
+                result.RequestId = dbResult.ID.ToString();
+            }
+            catch (Exception ex)
+            {
+                result.IsSuccess = false;
+                result.MessageToUser = "Error while updating data. Please log a ticket at Web helpdesk."; //ex.Message;
+            }
+
+            return result;
+        }
+
+        public VmGenericServiceResult DeleteStaff(int id)
+        {
+            //return format
+            var result = new VmGenericServiceResult();
+            try
+            {
+                var dbStaff = _repoStaff.GetWithoutAsync(id);
+                if(dbStaff == null)
+                {
+                    result.IsSuccess = false;
+                    result.MessageToUser = "No data.";
+                    return result;
+                }
+                dbStaff.Active = false;
                 var dbResult = _repoStaff.Update(dbStaff);
 
                 result.IsSuccess = true;

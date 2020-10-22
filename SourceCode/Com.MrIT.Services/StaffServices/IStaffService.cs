@@ -19,6 +19,8 @@ namespace Com.MrIT.Services
 
         VmStaff GetStaff(int id);
 
+        VmGenericServiceResult DeleteStaff(int id);
+
 
         #endregion
 

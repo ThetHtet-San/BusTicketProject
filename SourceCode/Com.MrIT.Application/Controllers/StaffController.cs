@@ -101,6 +101,8 @@ namespace Com.MrIT.PublicSite.Controllers
             }
         }
 
+
+
         [HttpPost]
         public IActionResult Edit(VmStaff staff)
         {
@@ -126,6 +128,27 @@ namespace Com.MrIT.PublicSite.Controllers
                 int id = 0;
                 int.TryParse(a, out id);
                 var result = _svsStaff.GetStaff(id);
+                if (result == null)
+                {
+                    return RedirectToAction("Listing", "Staff");
+                }
+                return View(result);
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Listing", "Staff");
+            }
+        }
+
+        [HttpGet]
+        public IActionResult Delete(string a)
+        {
+            try
+            {
+                a = Md5.Decrypt(System.Net.WebUtility.UrlDecode(a));
+                int id = 0;
+                int.TryParse(a, out id);
+                var result = _svsStaff.DeleteStaff(id);
                 if (result == null)
                 {
                     return RedirectToAction("Listing", "Staff");

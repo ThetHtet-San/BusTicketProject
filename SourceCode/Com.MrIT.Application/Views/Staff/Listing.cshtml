@@ -20,7 +20,7 @@
             foreach (var item in Model)
             {
                 <tr>
-                    <td> <a href="@Url.Action("Edit", "Staff", new { a= System.Net.WebUtility.UrlEncode (item.EncryptId) })">Edit</a> | <a href="@Url.Action("Detail", "Staff", new { a= System.Net.WebUtility.UrlEncode (item.EncryptId) })">View</a></td>
+                            <td> <a href="@Url.Action("Edit", "Staff", new { a= System.Net.WebUtility.UrlEncode (item.EncryptId) })">Edit</a> | <a href="@Url.Action("Detail", "Staff", new { a= System.Net.WebUtility.UrlEncode (item.EncryptId) })">View</a> | <a href="@Url.Action("Delete", "Staff", new { a= System.Net.WebUtility.UrlEncode (item.EncryptId) })">Delete</a></td>
                     <td> @item.Code  </td>
                     <td> @item.Name  </td>
                     <td> @item.Address  </td>
