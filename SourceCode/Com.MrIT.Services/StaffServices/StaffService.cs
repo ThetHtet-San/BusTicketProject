@@ -124,9 +124,6 @@ namespace Com.MrIT.Services
                             _repoStaffEducation.Update(dbItem);
                         }
                     }
-
-
-
                 }
 
                 result.IsSuccess = true;
@@ -232,6 +229,25 @@ namespace Com.MrIT.Services
             }
 
             return result;
+        }
+
+
+        public PageResult<VmStaff> GetStaffListByPage(string keyword, int page, int recordPerPage)
+        {
+            var resultPage = new PageResult<VmStaff>();
+            resultPage.Records = new List<VmStaff>();
+
+            var dbResultPage = _repoStaff.GetStaffListByPage(keyword, page, recordPerPage);
+            Copy<PageResult<Staff>, PageResult<VmStaff>>(dbResultPage, resultPage, new string[] { "Records" });
+
+            foreach(var dbItem in dbResultPage.Records)
+            {
+                var resultItem = new VmStaff();
+                Copy<Staff, VmStaff>(dbItem, resultItem);
+                resultItem.EncryptId = Md5.Encrypt(resultItem.ID.ToString());
+                resultPage.Records.Add(resultItem);
+            }
+            return resultPage;
         }
         #endregion
 

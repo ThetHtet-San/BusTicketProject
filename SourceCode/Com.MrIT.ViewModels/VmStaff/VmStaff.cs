@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Com.MrIT.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -17,5 +18,9 @@ namespace Com.MrIT.ViewModels
         public List<VmStaffExperience> Experiences { get; set; }
     }
 
-   
+    public class VmStaffPage
+    {
+        public PageResult<VmStaff> Result { get; set; }
+    }
 }
+

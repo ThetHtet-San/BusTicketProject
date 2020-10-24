@@ -26,5 +26,39 @@ namespace Com.MrIT.DataRepository
 
             return record;
         }
+
+        public PageResult<Staff> GetStaffListByPage(string keyword, int page, int totalRecords = 10)
+        {
+            var records =  this.entities.Where(e => e.SystemActive == true && e.Active == true
+                            && (keyword == "" || e.Name.ToLower().Contains(keyword.ToLower()) || e.Code.ToLower().Contains(keyword.ToLower()) || e.Address.ToLower().Contains(keyword.ToLower())))
+                           .OrderBy(e => e.CreatedOn)
+                           .Skip((totalRecords * page) - totalRecords)
+                           .Take(totalRecords).AsNoTracking()
+                           .ToList();
+
+            int count =  this.entities.Count(e => e.SystemActive == true && e.Active == true && (keyword == "" || e.Name.ToLower().Contains(keyword.ToLower()) || e.Code.ToLower().Contains(keyword.ToLower()) || e.Address.ToLower().Contains(keyword.ToLower())));
+
+            var result = new PageResult<Staff>()
+            {
+                Records = records,
+                TotalPage = (count + totalRecords - 1) / totalRecords,
+                CurrentPage = page,
+                TotalRecords = count
+            };
+
+            result.PreviousPage = 1;
+            if(result.CurrentPage  > 1)
+            {
+                result.PreviousPage = result.CurrentPage - 1;
+            }
+
+            result.NextPage = result.TotalPage;
+            if(result.CurrentPage < result.TotalPage)
+            {
+                result.NextPage = result.CurrentPage + 1;
+            }
+
+            return result;
+        }
     }
 }

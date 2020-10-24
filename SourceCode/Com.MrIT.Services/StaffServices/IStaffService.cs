@@ -1,4 +1,5 @@
-﻿using Com.MrIT.ViewModels;
+﻿using Com.MrIT.Common;
+using Com.MrIT.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -20,6 +21,8 @@ namespace Com.MrIT.Services
         VmStaff GetStaff(int id);
 
         VmGenericServiceResult DeleteStaff(int id);
+
+        PageResult<VmStaff> GetStaffListByPage(string keyword, int page, int recordPerPage);
 
 
         #endregion

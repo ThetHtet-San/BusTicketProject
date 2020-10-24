@@ -11,6 +11,6 @@ namespace Com.MrIT.DataRepository
     {
         Staff GetStaff(int id);
 
-        
+        PageResult<Staff> GetStaffListByPage(string keyword, int page, int totalRecords = 10);
     }
 }

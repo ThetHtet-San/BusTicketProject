@@ -22,8 +22,33 @@ namespace Com.MrIT.PublicSite.Controllers
         [HttpGet]
         public IActionResult Listing()
         {
-            var result = _svsStaff.GetAllStaff();
-            return View(result);
+            int recordsPerPage = 2;
+
+            string queryPage = HttpContext.Request.Query["page"];
+            int page = 1;
+            if (queryPage != null)
+            {
+                int.TryParse(queryPage, out page);
+                if(page == 0)
+                {
+                    page = 1;
+                }
+            }
+
+            string queryKeyword = HttpContext.Request.Query["keyword"];
+            string keyword = "";
+            if (queryKeyword != null)
+            {
+                keyword = queryKeyword;
+            }
+            TempData["Keyword"] = keyword;
+
+            var result = _svsStaff.GetStaffListByPage(keyword, page, recordsPerPage);
+
+            var resultPage = new VmStaffPage();
+            resultPage.Result = result;
+            //var result = _svsStaff.GetAllStaff();
+            return View(resultPage);
         }
 
         [HttpGet]
@@ -107,6 +132,10 @@ namespace Com.MrIT.PublicSite.Controllers
         public IActionResult Edit(VmStaff staff)
         {
             staff.ModifiedBy = "System"; //Session["LogOnUser"]
+            if(staff.EducationList == null)
+            {
+                staff.EducationList = new List<VmStaffEducation>();
+            }
             var result = _svsStaff.UpdateStaff(staff);
             if (result.IsSuccess)
             {
