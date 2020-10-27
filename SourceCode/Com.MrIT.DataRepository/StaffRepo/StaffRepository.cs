@@ -27,25 +27,34 @@ namespace Com.MrIT.DataRepository
             return record;
         }
 
-        public PageResult<Staff> GetStaffListByPage(string keyword, int page, int totalRecords = 10)
+        public PageResult<Staff> GetStaffListByPage(string keyword, int page, int recordPerPage = 10)
         {
             var records =  this.entities.Where(e => e.SystemActive == true && e.Active == true
                             && (keyword == "" || e.Name.ToLower().Contains(keyword.ToLower()) || e.Code.ToLower().Contains(keyword.ToLower()) || e.Address.ToLower().Contains(keyword.ToLower())))
-                           .OrderBy(e => e.CreatedOn)
-                           .Skip((totalRecords * page) - totalRecords)
-                           .Take(totalRecords).AsNoTracking()
+                           .OrderBy(e => e.Name)
+                           .Skip((recordPerPage * page) - recordPerPage)
+                           .Take(recordPerPage).AsNoTracking()
                            .ToList();
 
             int count =  this.entities.Count(e => e.SystemActive == true && e.Active == true && (keyword == "" || e.Name.ToLower().Contains(keyword.ToLower()) || e.Code.ToLower().Contains(keyword.ToLower()) || e.Address.ToLower().Contains(keyword.ToLower())));
 
-            var result = new PageResult<Staff>()
-            {
-                Records = records,
-                TotalPage = (count + totalRecords - 1) / totalRecords,
-                CurrentPage = page,
-                TotalRecords = count
-            };
+            //var result = new PageResult<Staff>()
+            //{
+            //    Records = records,
+            //    TotalPage = (count + recordPerPage - 1) / recordPerPage, //(count/recorPerPage)
+            //    CurrentPage = page,
+            //    TotalRecords = count
+            //};
 
+            var result = new PageResult<Staff>();
+            result.Records = records;
+            result.TotalPage = (count + recordPerPage - 1) / recordPerPage;
+            result.CurrentPage = page;
+            result.TotalRecords = count;
+
+            //104 records / 10 = 10.4 / 10 
+            //104 + 10 - 1 = 113 / 10 = 11.3 = 11
+            //100 + 10 -1 = 109 /10 = 10.9 = 10
             result.PreviousPage = 1;
             if(result.CurrentPage  > 1)
             {
