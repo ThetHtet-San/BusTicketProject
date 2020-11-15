@@ -93,6 +93,8 @@ namespace Com.MrIT.PublicSite.Controllers
         public IActionResult Create(VmStaff staff)
         {
             staff.CreatedBy = staff.ModifiedBy = "System"; //Session["LogOnUser"]
+            staff.Code = ShortId.Generate(true, false, 7);
+            staff.Name = staff.Name.EmptyIfNull();
             var result = _svsStaff.CreateStaff(staff);
             if (result.IsSuccess)
             {
