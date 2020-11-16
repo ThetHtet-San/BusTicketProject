@@ -24,6 +24,7 @@ namespace Com.MrIT.PublicSite.Controllers
         {
             int recordsPerPage = 2;
             string def = "test";
+            string abc = "123";
             string queryPage = HttpContext.Request.Query["page"];
             int page = 1;
             if (queryPage != null)
