@@ -23,7 +23,7 @@ namespace Com.MrIT.PublicSite.Controllers
         public IActionResult Listing()
         {
             int recordsPerPage = 2;
-
+            string def = "test";
             string queryPage = HttpContext.Request.Query["page"];
             int page = 1;
             if (queryPage != null)
