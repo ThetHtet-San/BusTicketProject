@@ -10,7 +10,7 @@ namespace Com.MrIT.DBEntities
     [Table("staff")]
     public class Staff : GenericEntity
     {
-        public string Codes { get; set; }
+        public string Code { get; set; }
 
         public string Name { get; set; }
         public string Address { get; set; }

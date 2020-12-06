@@ -1,4 +1,4 @@
-﻿using Com.MrIT.Common;
+﻿ using Com.MrIT.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
