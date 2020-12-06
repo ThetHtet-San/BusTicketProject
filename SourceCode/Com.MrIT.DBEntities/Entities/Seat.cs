@@ -12,7 +12,7 @@ namespace Com.MrIT.DBEntities
     {
         public string SeatName { get; set; }
 
-        [ForeignKey("ID")]
+        [ForeignKey("BusID")]
         public virtual Bus Bus { get; set; }
     }
 }
