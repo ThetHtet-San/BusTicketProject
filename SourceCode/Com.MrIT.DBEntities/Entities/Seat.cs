@@ -10,6 +10,7 @@ namespace Com.MrIT.DBEntities
     [Table("seat")]
     public class Seat : GenericEntity
     {
+        public int BusID { get; set; }
         public string SeatName { get; set; }
 
         [ForeignKey("BusID")]
