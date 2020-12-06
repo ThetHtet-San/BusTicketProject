@@ -6,21 +6,16 @@ using System.Text;
 
 namespace Com.MrIT.ViewModels
 {
-    public class VmStaff:ViewModelItemBase 
+    public class VmStaff
     {
-        [Display(Name = "Emp Code")]
-        public string Code { get; set; }
-        public string Name { get; set; }
-        public string Address { get; set; }
+        public string StaffID { get; set; }
+        public string StaffName { get; set; }
+        public string StaffPhone { get; set; }
+        public string StaffAddress { get; set; }
+        public string StaffGender { get; set; }
 
-        public List<VmStaffEducation> EducationList { get; set; }
-
-        public List<VmStaffExperience> Experiences { get; set; }
     }
 
-    public class VmStaffPage
-    {
-        public PageResult<VmStaff> Result { get; set; }
-    }
+
 }
 

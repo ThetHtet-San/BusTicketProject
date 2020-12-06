@@ -112,8 +112,8 @@ namespace Com.MrIT.Application
             //// Register for repository classes
             //services.AddScoped<IBranchRepository, BranchRepository>();
             services.AddScoped<IStaffRepository, StaffRepository>();
-            services.AddScoped<IStaffEducationRepository, StaffEducationRepository>();
-            services.AddScoped<IStaffExperienceRepository, StaffExperienceRepository>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             //// Register for logic classes
             //services.AddScoped<IUserService, UserService>();
