@@ -15,5 +15,7 @@ namespace Com.MrIT.DBEntities
 
         [ForeignKey("BusID")]
         public virtual Bus Bus { get; set; }
+        
+
     }
 }
