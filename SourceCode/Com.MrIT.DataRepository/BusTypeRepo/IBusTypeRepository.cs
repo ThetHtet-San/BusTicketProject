@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Com.MrIT.DataRepository
 {
-    public interface IStaffEducationRepository : IGenericRepository<StaffEducation>
+    public interface IBusTypeRepository : IGenericRepository<BusType>
     {
-        List<StaffEducation> GetOldEducationList(int StaffID);
+
     }
 }

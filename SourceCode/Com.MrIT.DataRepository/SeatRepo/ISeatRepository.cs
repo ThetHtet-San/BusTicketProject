@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Com.MrIT.DataRepository
 {
-    public interface IStaffRepository : IGenericRepository<Staff>
+    public interface ISeatRepository : IGenericRepository<Seat>
     {
-       
+
     }
 }

@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace Com.MrIT.DataRepository
 {
-    public interface IStaffExperienceRepository : IGenericRepository<StaffExperience>
+    public interface IBusRepository : IGenericRepository<Bus>
     {
+        Bus GetBus(int id);
 
     }
 }
