@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace Com.MrIT.DataRepository
 {
-    public interface IStaffRepository : IGenericRepository<Staff>
+    public interface ISeatRepository : IGenericRepository<Seat>
     {
-        Staff GetStaff(int id);
 
-      ////  PageResult<Staff> GetStaffListByPage(string keyword, int page, int recordPerPage = 10);
     }
 }

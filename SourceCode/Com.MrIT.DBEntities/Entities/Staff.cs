@@ -13,6 +13,7 @@ namespace Com.MrIT.DBEntities
         public string Code1 { get; set; }
         public string Code2 { get; set; }
 
+
         public string Name { get; set; }
         public string Address { get; set; }
 
