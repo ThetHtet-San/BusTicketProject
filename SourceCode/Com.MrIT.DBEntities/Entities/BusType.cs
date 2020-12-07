@@ -11,8 +11,8 @@ namespace Com.MrIT.DBEntities
     public class BusType : GenericEntity
     {
         public string BusTypeName { get; set; }
-        [ForeignKey("ID")]
-        public virtual Bus Bus { get; set; }
+        public ICollection<Bus> bus { get; set; }
+
     }
     
 }

@@ -8,10 +8,11 @@ namespace Com.MrIT.ViewModels
     public class VmBusType:ViewModelItemBase 
     {
         public string BusTypeName { get; set; }
-
-        public VmBus Bus { get; set; }
-
+        public List<VmBus> Bus { get; set; }
     }
+
+
+}
 
    
 }
