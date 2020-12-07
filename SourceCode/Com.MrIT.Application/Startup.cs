@@ -111,13 +111,11 @@ namespace Com.MrIT.Application
         {
             //// Register for repository classes
             //services.AddScoped<IBranchRepository, BranchRepository>();
-            services.AddScoped<IStaffRepository, StaffRepository>();
-            services.AddScoped<IStaffEducationRepository, StaffEducationRepository>();
-            services.AddScoped<IStaffExperienceRepository, StaffExperienceRepository>();
+          
 
             //// Register for logic classes
             //services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IStaffService, StaffService>();
+         
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
