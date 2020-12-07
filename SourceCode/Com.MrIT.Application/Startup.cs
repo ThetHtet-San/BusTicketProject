@@ -117,7 +117,7 @@ namespace Com.MrIT.Application
 
             //// Register for logic classes
             //services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IStaffService, StaffService>();
+         
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

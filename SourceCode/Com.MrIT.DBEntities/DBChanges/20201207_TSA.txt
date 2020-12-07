@@ -1,0 +1,424 @@
+﻿
+USE `ojt_teammu` ;
+
+-- -----------------------------------------------------
+-- Table `ojt_teammu`.`customer`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ojt_teammu`.`customer` (
+  `ID` INT NOT NULL AUTO_INCREMENT,
+  `Active` BIT NULL,
+  `SystemActive` BIT NULL,
+  `CreatedBy` VARCHAR(45) NULL,
+  `CreatedOn` DATETIME NULL,
+  `ModifiedBy` VARCHAR(45) NULL,
+  `ModifiedOn` DATETIME NULL,
+  `NRC` VARCHAR(45) NULL,
+  `Name` VARCHAR(45) NULL,
+  `Phone` VARCHAR(45) NULL,
+  `Address` VARCHAR(500) NULL,
+  `Gender` VARCHAR(45) NULL,
+  PRIMARY KEY (`ID`))
+ENGINE = InnoDB;
+
+USE `ojt_teammu` ;
+
+-- -----------------------------------------------------
+-- Table `ojt_teammu`.`staff`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ojt_teammu`.`staff` (
+  `ID` INT NOT NULL AUTO_INCREMENT,
+  `Active` BIT NULL,
+  `SystemActive` BIT NULL,
+  `ModifiedBy` VARCHAR(45) NULL,
+  `ModifiedOn` DATETIME NULL,
+  `CreatedBy` VARCHAR(45) NULL,
+  `CreatedOn` DATETIME NULL,
+  `StaffID` VARCHAR(45) NULL,
+  `StaffName` VARCHAR(45) NULL,
+  `StaffPhone` VARCHAR(45) NULL,
+  `StaffAddress` VARCHAR(450) NULL,
+  `StaffGender` VARCHAR(45) NULL,
+  PRIMARY KEY (`ID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ojt_teammu`.`customer`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ojt_teammu`.`customer` (
+  `ID` INT NOT NULL AUTO_INCREMENT,
+  `Active` BIT NULL,
+  `SystemActive` BIT NULL,
+  `CreatedBy` VARCHAR(45) NULL,
+  `CreatedOn` DATETIME NULL,
+  `ModifiedBy` VARCHAR(45) NULL,
+  `ModifiedOn` DATETIME NULL,
+  `NRC` VARCHAR(45) NULL,
+  `CustomerName` VARCHAR(45) NULL,
+  `CustomerPhone` VARCHAR(45) NULL,
+  `CustomerAddress` VARCHAR(500) NULL,
+  `Gender` VARCHAR(45) NULL,
+  PRIMARY KEY (`ID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ojt_teammu`.`sys_user`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ojt_teammu`.`sys_user` (
+  `ID` INT NOT NULL AUTO_INCREMENT,
+  `Active` BIT NULL,
+  `SystemActive` BIT NULL,
+  `ModifiedBy` VARCHAR(45) NULL,
+  `ModifiedOn` DATETIME NULL,
+  `CreatedBy` VARCHAR(45) NULL,
+  `CreatedOn` DATETIME NULL,
+  `UserID` VARCHAR(45) NULL,
+  `Email` VARCHAR(45) NULL,
+  `Password` VARCHAR(45) NULL,
+  `Phone` VARCHAR(45) NULL,
+  `Address` VARCHAR(45) NULL,
+  PRIMARY KEY (`ID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ojt_teammu`.`bus_type`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ojt_teammu`.`bus_type` (
+  `ID` INT NOT NULL AUTO_INCREMENT,
+  `Active` BIT NULL,
+  `SystemActive` BIT NULL,
+  `ModifiedBy` VARCHAR(45) NULL,
+  `ModifiedOn` DATETIME NULL,
+  `CreatedBy` VARCHAR(45) NULL,
+  `CreatedOn` DATETIME NULL,
+  `BusTypeName` VARCHAR(45) NULL,
+  PRIMARY KEY (`ID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ojt_teammu`.`bus`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ojt_teammu`.`bus` (
+  `ID` INT NOT NULL AUTO_INCREMENT,
+  `Active` BIT NULL,
+  `SystemActive` BIT NULL,
+  `ModifiedBy` VARCHAR(45) NULL,
+  `ModifiedOn` DATETIME NULL,
+  `CreatedBy` VARCHAR(45) NULL,
+  `CreatedOn` DATETIME NULL,
+  `BusNo` VARCHAR(45) NULL,
+  `SeatAvailable` INT NULL,
+  `bus_type_ID` INT NOT NULL,
+  PRIMARY KEY (`ID`),
+  INDEX `fk_bus_bus_type1_idx` (`bus_type_ID` ASC) VISIBLE,
+  CONSTRAINT `fk_bus_bus_type1`
+    FOREIGN KEY (`bus_type_ID`)
+    REFERENCES `ojt_teammu`.`bus_type` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ojt_teammu`.`destination`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ojt_teammu`.`destination` (
+  `ID` INT NOT NULL AUTO_INCREMENT,
+  `Active` BIT NULL,
+  `SystemActive` BIT NULL,
+  `ModifiedBy` VARCHAR(45) NULL,
+  `ModifiedOn` DATETIME NULL,
+  `CreatedBy` VARCHAR(45) NULL,
+  `CreatedOn` DATETIME NULL,
+  `DestinationName` VARCHAR(45) NULL,
+  PRIMARY KEY (`ID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ojt_teammu`.`departure`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ojt_teammu`.`departure` (
+  `ID` INT NOT NULL AUTO_INCREMENT,
+  `Active` BIT NULL,
+  `SystemActive` BIT NULL,
+  `ModifiedBy` VARCHAR(45) NULL,
+  `ModifiedOn` DATETIME NULL,
+  `CreatedBy` VARCHAR(45) NULL,
+  `CreatedOn` DATETIME NULL,
+  `DepartureName` VARCHAR(45) NULL,
+  PRIMARY KEY (`ID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ojt_teammu`.`route`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ojt_teammu`.`route` (
+  `ID` INT NOT NULL AUTO_INCREMENT,
+  `Active` BIT NULL,
+  `SystemActive` BIT NULL,
+  `ModifiedBy` VARCHAR(45) NULL,
+  `ModifiedOn` DATETIME NULL,
+  `CreatedBy` VARCHAR(45) NULL,
+  `CreatedOn` DATETIME NULL,
+  `destination_ID` INT NOT NULL,
+  `departure_ID` INT NOT NULL,
+  PRIMARY KEY (`ID`),
+  INDEX `fk_route_destination_idx` (`destination_ID` ASC) VISIBLE,
+  INDEX `fk_route_departure1_idx` (`departure_ID` ASC) VISIBLE,
+  CONSTRAINT `fk_route_destination`
+    FOREIGN KEY (`destination_ID`)
+    REFERENCES `ojt_teammu`.`destination` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_route_departure1`
+    FOREIGN KEY (`departure_ID`)
+    REFERENCES `ojt_teammu`.`departure` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ojt_teammu`.`schedule`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ojt_teammu`.`schedule` (
+  `ID` INT NOT NULL AUTO_INCREMENT,
+  `Active` BIT NULL,
+  `SystemActive` BIT NULL,
+  `ModifiedBy` VARCHAR(45) NULL,
+  `ModifiedOn` DATETIME NULL,
+  `CreatedBy` VARCHAR(45) NULL,
+  `CreatedOn` DATETIME NULL,
+  `DepartureTime` DATETIME NULL,
+  `ArrivalTime` DATETIME NULL,
+  `DepartureDate` DATETIME NULL,
+  `MaxPax` INT NULL,
+  `Available` INT NULL,
+  `Price` DECIMAL(10,2) NULL,
+  `bus_ID` INT NOT NULL,
+  `route_ID` INT NOT NULL,
+  PRIMARY KEY (`ID`),
+  INDEX `fk_schedule_bus1_idx` (`bus_ID` ASC) VISIBLE,
+  INDEX `fk_schedule_route1_idx` (`route_ID` ASC) VISIBLE,
+  CONSTRAINT `fk_schedule_bus1`
+    FOREIGN KEY (`bus_ID`)
+    REFERENCES `ojt_teammu`.`bus` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_schedule_route1`
+    FOREIGN KEY (`route_ID`)
+    REFERENCES `ojt_teammu`.`route` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ojt_teammu`.`reservation`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ojt_teammu`.`reservation` (
+  `ID` INT NOT NULL AUTO_INCREMENT,
+  `Active` BIT NULL,
+  `SystemActive` BIT NULL,
+  `ModifiedBy` VARCHAR(45) NULL,
+  `ModifiedOn` DATETIME NULL,
+  `CreatedBy` VARCHAR(45) NULL,
+  `CreatedOn` DATETIME NULL,
+  `reservationID` VARCHAR(45) NULL,
+  `noOfSeat` INT NULL,
+  `Price` DECIMAL(10,2) NULL,
+  `Date` DATETIME NULL,
+  `TotalPrice` DECIMAL(10,2) NULL,
+  `schedule_ID` INT NOT NULL,
+  `customer_ID` INT NOT NULL,
+  PRIMARY KEY (`ID`),
+  INDEX `fk_reservation_schedule1_idx` (`schedule_ID` ASC) VISIBLE,
+  INDEX `fk_reservation_customer1_idx` (`customer_ID` ASC) VISIBLE,
+  CONSTRAINT `fk_reservation_schedule1`
+    FOREIGN KEY (`schedule_ID`)
+    REFERENCES `ojt_teammu`.`schedule` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_reservation_customer1`
+    FOREIGN KEY (`customer_ID`)
+    REFERENCES `ojt_teammu`.`customer` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ojt_teammu`.`seat`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ojt_teammu`.`seat` (
+  `ID` INT NOT NULL AUTO_INCREMENT,
+  `Active` BIT NULL,
+  `SystemActive` BIT NULL,
+  `ModifiedBy` VARCHAR(45) NULL,
+  `ModifiedOn` DATETIME NULL,
+  `CreatedBy` VARCHAR(45) NULL,
+  `CreatedOn` DATETIME NULL,
+  `SeatName` VARCHAR(45) NULL,
+  `bus_ID` INT NOT NULL,
+  PRIMARY KEY (`ID`),
+  INDEX `fk_seat_bus1_idx` (`bus_ID` ASC) VISIBLE,
+  CONSTRAINT `fk_seat_bus1`
+    FOREIGN KEY (`bus_ID`)
+    REFERENCES `ojt_teammu`.`bus` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ojt_teammu`.`payment`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ojt_teammu`.`payment` (
+  `ID` INT NOT NULL AUTO_INCREMENT,
+  `Active` BIT NULL,
+  `SystemActive` BIT NULL,
+  `ModifiedBy` VARCHAR(45) NULL,
+  `ModifiedOn` DATETIME NULL,
+  `CreatedBy` VARCHAR(45) NULL,
+  `CreatedOn` DATETIME NULL,
+  `PaymentMethod` VARCHAR(45) NULL,
+  `reservation_ID` INT NOT NULL,
+  PRIMARY KEY (`ID`),
+  INDEX `fk_payment_reservation1_idx` (`reservation_ID` ASC) VISIBLE,
+  CONSTRAINT `fk_payment_reservation1`
+    FOREIGN KEY (`reservation_ID`)
+    REFERENCES `ojt_teammu`.`reservation` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ojt_teammu`.`schedule_staff`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ojt_teammu`.`schedule_staff` (
+  `ID` INT NOT NULL AUTO_INCREMENT,
+  `Active` BIT NULL,
+  `SystemActive` BIT NULL,
+  `ModifiedBy` VARCHAR(45) NULL,
+  `ModifiedOn` DATETIME NULL,
+  `CreatedBy` VARCHAR(45) NULL,
+  `CreatedOn` DATETIME NULL,
+  `schedule_ID` INT NOT NULL,
+  `staff_ID` INT NOT NULL,
+  PRIMARY KEY (`ID`),
+  INDEX `fk_schedule_staff_schedule1_idx` (`schedule_ID` ASC) VISIBLE,
+  INDEX `fk_schedule_staff_staff1_idx` (`staff_ID` ASC) VISIBLE,
+  CONSTRAINT `fk_schedule_staff_schedule1`
+    FOREIGN KEY (`schedule_ID`)
+    REFERENCES `ojt_teammu`.`schedule` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_schedule_staff_staff1`
+    FOREIGN KEY (`staff_ID`)
+    REFERENCES `ojt_teammu`.`staff` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ojt_teammu`.`email_template`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ojt_teammu`.`email_template` (
+  `ID` INT(11) NOT NULL AUTO_INCREMENT,
+  `Active` BIT(1) NULL DEFAULT NULL,
+  `SystemActive` BIT(1) NULL DEFAULT NULL,
+  `CreatedBy` VARCHAR(45) NULL DEFAULT NULL,
+  `CreatedOn` DATETIME NULL DEFAULT NULL,
+  `ModifiedBy` VARCHAR(45) NULL DEFAULT NULL,
+  `ModifiedOn` DATETIME NULL DEFAULT NULL,
+  `Template` VARCHAR(500) NULL DEFAULT NULL,
+  `Subject` VARCHAR(500) NULL DEFAULT NULL,
+  `Content` LONGTEXT NULL DEFAULT NULL,
+  PRIMARY KEY (`ID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ojt_teammu`.`log_change`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ojt_teammu`.`log_change` (
+  `ID` INT(11) NOT NULL AUTO_INCREMENT,
+  `Active` BIT(1) NULL DEFAULT NULL,
+  `SystemActive` BIT(1) NULL DEFAULT NULL,
+  `CreatedBy` VARCHAR(45) NULL DEFAULT NULL,
+  `CreatedOn` DATETIME NULL DEFAULT NULL,
+  `ModifiedBy` VARCHAR(45) NULL DEFAULT NULL,
+  `ModifiedOn` DATETIME NULL DEFAULT NULL,
+  `TableName` VARCHAR(500) NULL DEFAULT NULL,
+  `FieldName` VARCHAR(100) NULL DEFAULT NULL,
+  `FieldValue` LONGTEXT NULL DEFAULT NULL,
+  `Action` VARCHAR(50) NULL DEFAULT NULL,
+  `TableID` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`ID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ojt_teammu`.`log_email`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ojt_teammu`.`log_email` (
+  `ID` INT(11) NOT NULL AUTO_INCREMENT,
+  `Active` BIT(1) NULL DEFAULT NULL,
+  `SystemActive` BIT(1) NULL DEFAULT NULL,
+  `CreatedBy` VARCHAR(45) NULL DEFAULT NULL,
+  `CreatedOn` DATETIME NULL DEFAULT NULL,
+  `ModifiedBy` VARCHAR(45) NULL DEFAULT NULL,
+  `ModifiedOn` DATETIME NULL DEFAULT NULL,
+  `ReceiverCC` VARCHAR(500) NULL DEFAULT NULL,
+  `Subject` VARCHAR(500) NULL DEFAULT NULL,
+  `Body` LONGTEXT NULL DEFAULT NULL,
+  `AttachmentFiles` VARCHAR(500) NULL DEFAULT NULL,
+  `IsSuccess` BIT(1) NOT NULL,
+  PRIMARY KEY (`ID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ojt_teammu`.`log_error`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ojt_teammu`.`log_error` (
+  `ID` INT(11) NOT NULL AUTO_INCREMENT,
+  `Active` BIT(1) NULL DEFAULT NULL,
+  `SystemActive` BIT(1) NULL DEFAULT NULL,
+  `CreatedBy` VARCHAR(45) NULL DEFAULT NULL,
+  `CreatedOn` DATETIME NULL DEFAULT NULL,
+  `ModifiedBy` VARCHAR(45) NULL DEFAULT NULL,
+  `ModifiedOn` DATETIME NULL DEFAULT NULL,
+  `Error` LONGTEXT NULL DEFAULT NULL,
+  `Message` LONGTEXT NULL DEFAULT NULL,
+  `URL` LONGTEXT NULL DEFAULT NULL,
+  PRIMARY KEY (`ID`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ojt_teammu`.`log_login`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ojt_teammu`.`log_login` (
+  `ID` INT(11) NOT NULL AUTO_INCREMENT,
+  `Active` BIT(1) NULL DEFAULT NULL,
+  `SystemActive` BIT(1) NULL DEFAULT NULL,
+  `CreatedBy` VARCHAR(45) NULL DEFAULT NULL,
+  `CreatedOn` DATETIME NULL DEFAULT NULL,
+  `ModifiedBy` VARCHAR(45) NULL DEFAULT NULL,
+  `ModifiedOn` DATETIME NULL DEFAULT NULL,
+  `Username` VARCHAR(100) NULL DEFAULT NULL,
+  `Browser` VARCHAR(1000) NULL DEFAULT NULL,
+  `IPAddress` VARCHAR(500) NULL DEFAULT NULL,
+  `MachineIPAddress` VARCHAR(500) NULL DEFAULT NULL,
+  PRIMARY KEY (`ID`))
+ENGINE = InnoDB;
+
+

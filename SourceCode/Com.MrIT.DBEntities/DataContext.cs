@@ -12,10 +12,6 @@ namespace Com.MrIT.DBEntities
 
         //public virtual DbSet<Sample> Samples { get; set; }
 
-        public virtual DbSet<Staff> Staffs { get; set; }
-
-        public virtual DbSet<StaffEducation> StaffEducations { get; set; }
-
-        public virtual DbSet<StaffExperience> StaffExperiences { get; set; }
+        
     }
 }
